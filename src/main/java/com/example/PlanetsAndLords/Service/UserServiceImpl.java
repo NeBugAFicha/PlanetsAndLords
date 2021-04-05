@@ -49,4 +49,22 @@ public class UserServiceImpl implements UserService {
             while(rowset2.next()) jdbcTemplate.update("update lords set countOfPlanets = ? where name = ?", rowset2.getInt("countOfPlanets") - 1,lordName);
         }
     }
+
+    @Override
+    public void deletePlanet(String planetName){
+        Planet planet = jdbcTemplate.query("Select * from planets where name = " + "'"+planetName+"'", new PlanetMapper()).get(0);
+        jdbcTemplate.update("Delete from planets where name = ?",planetName);
+        SqlRowSet rowset = jdbcTemplate.queryForRowSet("Select * from lords where name = ?", planet.getLordName());
+        while(rowset.next()) jdbcTemplate.update("update lords set countOfPlanets = ? where name = ?", rowset.getInt("countOfPlanets") - 1,planet.getLordName());
+    }
+
+    @Override
+    public List<Lord> findSlackers() {
+        return jdbcTemplate.query("Select * from lords where countOfPlanets = 0", new LordMapper());
+    }
+
+    @Override
+    public List<Lord> findYoungLords() {
+        return jdbcTemplate.query("Select * from lords order by age ASC limit 10", new LordMapper());
+    }
 }

@@ -11,4 +11,7 @@ public interface UserService {
     List<Lord> findAllLords();
     List<Planet> findAllPlanets();
     void appointLord(String newLordId, String planetName, String lordName);
+    void deletePlanet(String planetName);
+    List<Lord> findSlackers();
+    List<Lord> findYoungLords();
 }

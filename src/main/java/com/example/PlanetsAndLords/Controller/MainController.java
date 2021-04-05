@@ -48,4 +48,33 @@ public class MainController {
         userService.appointLord(newLordId,planetName,lordName);
         return "redirect:";
     }
+    @GetMapping("/deletePlanet/{planetName}")
+    public String deletePlanet(@PathVariable("planetName") String planetName){
+        userService.deletePlanet(planetName);
+        return "redirect:";
+    }
+    @GetMapping("/showSlackers")
+    public String showSlackers(Model model){
+        Iterable<Lord> slackers = userService.findSlackers();
+        Iterable<Lord> allLords = userService.findAllLords();
+        Iterable<Planet> allPlanets = userService.findAllPlanets();
+        model.addAttribute("lords",allLords);
+        model.addAttribute("planets",allPlanets);
+        model.addAttribute("slackers",slackers);
+        return "main";
+    }
+    @GetMapping("/showYoungLords")
+    public String showYoungLords(Model model){
+        Iterable<Lord> youngLords = userService.findYoungLords();
+        Iterable<Lord> allLords = userService.findAllLords();
+        Iterable<Planet> allPlanets = userService.findAllPlanets();
+        model.addAttribute("lords",allLords);
+        model.addAttribute("planets",allPlanets);
+        model.addAttribute("youngLords",youngLords);
+        return "main";
+    }
+    @GetMapping("/hideAllLists")
+    public String hideAllLists(){
+        return "redirect:/";
+    }
 }

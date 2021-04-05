@@ -40,6 +40,23 @@
                 <button type="submit">Назначить Повелителя управлять Планетой</button>
             </form>
         </#if>
+        <a href="deletePlanet/${planet.name}">Уничтожить Планету</a></br>
     </#list>
+
+   <a href="/showSlackers">Найти всех Повелителей бездельников</a></br>
+    <#if slackers??>
+        <#list slackers as slacker>
+            <span>${slacker.name}</span>
+            <span>${slacker.age}</span></br>
+        </#list>
+    </#if>
+    <a href="/showYoungLords">Отобразить ТОП 10 самых молодых Повелителей</a></br>
+    <#if youngLords??>
+        <#list youngLords as youngLord>
+            <span>${youngLord.name}</span>
+            <span>${youngLord.age}</span></br>
+        </#list>
+    </#if>
+    <a href="/hideAllLists">Спрятать все списки</a>
 </body>
 </html>
