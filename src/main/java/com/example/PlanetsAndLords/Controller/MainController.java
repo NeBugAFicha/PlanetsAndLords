@@ -30,8 +30,20 @@ public class MainController {
         return "addLord";
     }
     @PostMapping("/addLord")
-    public String addLord(Lord lord){
-        userService.addLord(lord);
+    public String addLord(@RequestParam String name, @RequestParam double age, Model model){
+        if(age<=0||age>Integer.MAX_VALUE){
+            model.addAttribute("ageError","Некорректный значение возраста Повелителя");
+            if(name.length()==0||name.length()>255) {
+                model.addAttribute("nameError", "Некорректные данные имени Повелителя");
+                return "addLord";
+            }
+            return "addLord";
+        }else if(name.length()==0||name.length()>255) {
+            model.addAttribute("nameError", "Некорректные данные имени Повелителя");
+            return "addLord";
+        }
+
+        userService.addLord(new Lord(name,(int) age));
         return "redirect:";
     }
     @GetMapping("/addPlanet")
@@ -39,8 +51,12 @@ public class MainController {
         return "addPlanet";
     }
     @PostMapping("/addPlanet")
-    public String addPlanet(Planet planet){
-        userService.addPlanet(planet);
+    public String addPlanet(@RequestParam String name, Model model){
+        if(name.length()==0||name.length()>255) {
+            model.addAttribute("nameError", "Некорректные данные имени планеты");
+            return "addLord";
+        }
+        userService.addPlanet(new Planet(name));
         return "redirect:";
     }
     @GetMapping("/appointLord")

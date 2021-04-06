@@ -4,6 +4,9 @@ public class Planet {
     private String name;
     private String lordName;
     public Planet(){}
+    public Planet(String name){
+        this.name = name;
+    }
     public Planet(String name, String lordName){
         this.name = name;
         this.lordName = lordName;
