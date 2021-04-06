@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 public class MainController {
     @Autowired
@@ -42,7 +44,11 @@ public class MainController {
             model.addAttribute("nameError", "Некорректные данные имени Повелителя");
             return "addLord";
         }
-
+        List<Lord> allLords = userService.findAllLords();
+        for(int i = 0; i < allLords.size();i++) if(allLords.get(i).getName().equals(name)) {
+            model.addAttribute("nameError", "Повелитель с таким именем уже существует");
+            return "addLord";
+        }
         userService.addLord(new Lord(name,(int) age));
         return "redirect:";
     }
@@ -54,7 +60,12 @@ public class MainController {
     public String addPlanet(@RequestParam String name, Model model){
         if(name.length()==0||name.length()>255) {
             model.addAttribute("nameError", "Некорректные данные имени планеты");
-            return "addLord";
+            return "addPlanet";
+        }
+        List<Planet> allPlanets = userService.findAllPlanets();
+        for(int i = 0; i < allPlanets.size();i++) if(allPlanets.get(i).getName().equals(name)) {
+            model.addAttribute("nameError", "Планета с таким именем уже существует");
+            return "addPlanet";
         }
         userService.addPlanet(new Planet(name));
         return "redirect:";
